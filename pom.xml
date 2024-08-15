@@ -19,6 +19,62 @@
             <artifactId>reactor-core</artifactId>
             <version>3.4.14</version>
         </dependency>
+		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+		<dependency>
+		  <groupId>org.projectlombok</groupId>
+		  <artifactId>lombok</artifactId>
+		  <version>1.18.24</version>
+		  <scope>provided</scope>
+		</dependency>
     </dependencies>
+
+	<build>
+	  <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.13.0</version>
+          <configuration>
+            <source>${maven.compiler.source}</source>
+			<target>${maven.compiler.target}</target>
+          </configuration>
+        </plugin>
+		<plugin>
+		  <groupId>org.apache.maven.plugins</groupId>
+		  <artifactId>maven-dependency-plugin</artifactId>
+		  <executions>
+			<execution>
+              <id>copy-dependencies</id>
+              <phase>prepare-package</phase>
+              <goals>
+                <goal>copy-dependencies</goal>
+              </goals>
+              <configuration>
+                <outputDirectory>
+                  ${project.build.directory}/libs
+                </outputDirectory>
+              </configuration>
+			</execution>
+		  </executions>
+		</plugin>
+	  
+		<plugin>
+		  <groupId>org.apache.maven.plugins</groupId>
+		  <artifactId>maven-jar-plugin</artifactId>
+		  <version>3.4.2</version>
+		  <configuration>
+			<archive>
+			  <manifest>
+				<addClasspath>true</addClasspath>
+				<classpathPrefix>libs/</classpathPrefix>
+				<mainClass>
+				  io.Runner
+				</mainClass>
+			  </manifest>
+			</archive>
+		  </configuration>
+		</plugin>
+	  </plugins>
+	</build>
 
 </project>

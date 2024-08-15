@@ -6,15 +6,18 @@ public class Exercise3 {
 
     public static void main(String[] args) throws IOException {
 
+		SynchronizerGate gate = new SynchronizerGate();
+
         // Use ReactiveSources.intNumbersFlux()
 
         // Get all numbers in the ReactiveSources.intNumbersFlux stream
         // into a List and print the list and its size
-        // TODO: Write code here
+		ReactiveSources.intNumbersFlux().collectList()
+			.doOnError(gate.errConsumer)
+			.subscribe(gate.successConsumer);
 
-
-        System.out.println("Press a key to end");
-        System.in.read();
+        gate.waitToComplete();
+		
     }
 
 }
